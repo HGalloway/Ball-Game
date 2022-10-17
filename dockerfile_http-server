@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1
+
+FROM ubuntu:latest
+
+LABEL maintainer="Hilliard Drew Luna Galloway"
+LABEL maintainer_email="hilliardgalloway@gmail.com"
+
+#PORTS TO EXPOSE
+EXPOSE 80
+
+#UPDATE & UPGRADE
+RUN apt update -y 
+RUN apt upgrade -y 
+
+#INSTALLING APPLICATIONS
+RUN apt-get install net-tools -y 
+RUN apt-get install apache2 -y
+
+#SET UP FOR CONFIG FILES
+RUN rm -r -f /var/www/html/*
+RUN rm -r -f /etc/apache2/*
+RUN mkdir /config-files
+
+#COPY OVER CONFIG/HTML FILES
+COPY ./html-files/ /config-files/html-files/
+COPY ./apache2-config-files/ /config-files/apache2-config-files/
+
+#MOVE FILES TO RESPECTIVE PLACE
+RUN mv -v /config-files/html-files/* /var/www/html/
+RUN mv -v /config-files/apache2-config-files/* /etc/apache2
+
+#CLEAN UP
+RUN rm -r /config-files
+
+#START APACHE SERVER
+CMD service apache2 start
