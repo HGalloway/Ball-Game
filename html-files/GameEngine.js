@@ -22,8 +22,7 @@ class GameEngine {
 
     startEngine() {
     	setInterval(() => {
-			this.Ball.checkPosition(this.canvas);
-			this.Ball.bounceBall();
+			this.Ball.bounceBall(this.canvas);
 			this.clearCanvas();
 			this.drawCanvas();
 		}, 10)
@@ -40,120 +39,50 @@ class Ball {
     constructor(x, y, radius) {
         this.x = x
         this.y = y
+
+		this.xVelocity = 1
+		this.yVelocity = 1
+
 		this.radius = radius
         this.startAngle = 0
         this.endAngle = 2 * Math.PI
-
-		this.DIRECTIONS = ["UP", "DOWN", "LEFT", "RIGHT"]
-		this.COMBINED_DIRECTIONS = ["UP-LEFT", "UP-RIGHT", "DOWN-LEFT", "DOWN-RIGHT"]
-		this.direction = this.DIRECTIONS[0]
-
-		this.northMovementOptions = [this.COMBINED_DIRECTIONS[2], this.COMBINED_DIRECTIONS[3]] //this.DIRECTIONS[1], 
-		this.southMovementOptions = [this.COMBINED_DIRECTIONS[0], this.COMBINED_DIRECTIONS[1]] //this.DIRECTIONS[0], 
-		this.westMovementOptions = [this.COMBINED_DIRECTIONS[1], this.COMBINED_DIRECTIONS[3]] //this.DIRECTIONS[3], 
-		this.eastMovementOptions = [this.COMBINED_DIRECTIONS[0], this.COMBINED_DIRECTIONS[2]] //this.DIRECTIONS[2], 
-
-		this.movement = new Movement(this, 1)
     }
 
     drawBall(canvasContext) {
         canvasContext.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle);
+
     }
 
-	// this.DIRECTIONS = ["UP", "DOWN", "LEFT", "RIGHT", "UP-LEFT", "UP-RIGHT", "DOWN-LEFT", "DOWN-RIGHT"]
-	bounceBall() {
-		if (this.direction == this.DIRECTIONS[0]) {
-			this.movement.moveUp()
+	bounceBall(canvas) {
+		if (this.x <= 0 + this.radius) {
+			this.invertXVelocity()
+			this.x += this.radius
 		}
-		else if (this.direction == this.DIRECTIONS[1]) {
-			this.movement.moveDown()
+		if (this.x + this.radius >= canvas.width) {
+			this.invertXVelocity()
+			this.x = canvas.width - this.radius
 		}
-		else if (this.direction == this.DIRECTIONS[2]) {
-			this.movement.moveLeft()
+		if (this.y <= 0 + this.radius) {
+			this.invertYVelocity()
+			this.y += this.radius
 		}
-		else if (this.direction == this.DIRECTIONS[3]) {
-			this.movement.moveRight()
-			
+		if (this.y + this.radius >= canvas.height) {
+			this.invertYVelocity()
+			this.y = canvas.height - this.radius 
 		}
 
-		else if (this.direction == this.COMBINED_DIRECTIONS[0]) {
-			this.movement.moveUpLeft()
-		}
-		else if (this.direction == this.COMBINED_DIRECTIONS[1]) {
-			this.movement.moveUpRight()
-		}
-		else if (this.direction == this.COMBINED_DIRECTIONS[2]) {
-			this.movement.moveDownLeft()
-		}
-		else if (this.direction == this.COMBINED_DIRECTIONS[3]) {
-			this.movement.moveDownRight()
-		}
+		// this.yVelocity += this.gravity
+
+		this.x += this.xVelocity
+		this.y += this.yVelocity
 	}
 
-	/*
-		this.DIRECTIONS = ["UP", "DOWN", "LEFT", "RIGHT"]
-		this.COMBINED_DIRECTIONS = ["UP-LEFT", "UP-RIGHT", "DOWN-LEFT", "DOWN-RIGHT"]
-		this.direction = this.DIRECTIONS[0]
-
-		this.northMovementOptions = [this.DIRECTIONS[1], this.COMBINED_DIRECTIONS[2], this.COMBINED_DIRECTIONS[3]]
-		this.southMovementOptions = [this.DIRECTIONS[0], this.COMBINED_DIRECTIONS[0], this.COMBINED_DIRECTIONS[1]]
-		this.westMovementOptions = [this.DIRECTIONS[3], this.COMBINED_DIRECTIONS[1], this.COMBINED_DIRECTIONS[3]]
-		this.eastMovementOptions = [this.DIRECTIONS[2], this.COMBINED_DIRECTIONS[0], this.COMBINED_DIRECTIONS[1]]
-	*/
-
-
-	checkPosition(canvas) {
-		if (this.x > canvas.width) {
-			console.log("Direction > than canvas width" + this.direction)
-		}
-		console.log()
-		/* NOTE: SKETCH OUT THE LOGIC FOR HANDLING COMBINED DIRECTED INTERACTION WITH BOUNDARIES.  */
-
-		/* 
-			if current direction is a combined direction
-				if current direction is going up and left 
-					if the ball hits the west wall 
-						change the direction to up and right
-					if the ball hits the south wall
-						change the direction up and right
-
-				if current direction is going up and right
-					if the ball hits the north wall
-						change the direction to 
-		*/
-
-		// if (this.COMBINED_DIRECTIONS.includes(this.direction)) {
-		// 	if (this.direction == this.COMBINED_DIRECTIONS[0]) {
-		// 		/* 
-		// 			if bounces of the west wall it needs to go up right
-		// 			if it bounces off the south wall it needs to go up left
-		// 		*/
-		// 		if (this.x == 0 + this.radius) {
-		// 			this.direction = this.COMBINED_DIRECTIONS[1]
-		// 		}
-		// 		else if (this.y == 0 + this.radius) {
-		// 			this.direction = this.COMBINED_DIRECTIONS[0]
-		// 		}
-		// 	}
-		// }
-		if (this.y == 0 + this.radius) {
-			this.direction = this.getNewDirection(this.northMovementOptions)
-		}
-		else if (this.y == canvas.height - this.radius) {
-			this.direction = this.getNewDirection(this.southMovementOptions)
-		}
-		else if (this.x == 0 + this.radius) {
-			this.direction = this.getNewDirection(this.westMovementOptions)
-		}
-		else if (this.x == canvas.width - this.radius) {
-			this.direction = this.getNewDirection(this.eastMovementOptions)
-		}
+	invertYVelocity() {
+		this.yVelocity = -this.yVelocity
 	}
 
-	getNewDirection(directionOptions) {
-		var randoNumber = Math.floor(Math.random() * directionOptions.length)
-
-		return directionOptions[randoNumber]
+	invertXVelocity() {
+		this.xVelocity = -this.xVelocity
 	}
 }
 
@@ -176,49 +105,6 @@ class Player {
 
 	clearPlayer(canvasContext) {
 		canvasContext.clearRect(this.previousX, this.previousY, this.width, this.height)
-	}
-}
-
-class Movement {
-	constructor (object, movementVelocity) {
-		this.object = object
-		this.movementVelocity = movementVelocity
-	}
-
-	moveLeft() {
-		this.object.x -= this.movementVelocity
-	}
-
-	moveRight() {
-		this.object.x += this.movementVelocity
-	}
-
-	moveDown() {
-		this.object.y += this.movementVelocity
-	}
-
-	moveUp() {
-		this.object.y -= this.movementVelocity
-	}
-
-	moveUpRight() {
-		this.moveUp()
-		this.moveRight()
-	}
-
-	moveUpLeft() {
-		this.moveUp()
-		this.moveLeft()
-	}
-
-	moveDownRight() {
-		this.moveDown()
-		this.moveRight()
-	}
-
-	moveDownLeft() {
-		this.moveDown()
-		this.moveLeft()
 	}
 }
 
