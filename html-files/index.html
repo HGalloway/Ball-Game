@@ -2,7 +2,7 @@
 
 <html>
     <head>
-	<title>bawls</title>
+	<title>Bawls</title>
         <link rel="stylesheet" href="home.css"></link>
 	<script src="http://192.168.1.141/GameEngine.js"></script>
 	<script>
@@ -10,8 +10,25 @@
 			var gameEngine = new GameEngine("canvas");
 			gameEngine.startEngine();			
 		};
-	</script> 
+	</script>
     </head>
+	<header class="header">
+		<!-- align="left" -->
+		<div id="header-left" > 
+			<h1 id="title">Bawls</h1>
+		</div>
+		<div id="header-right" >
+			<button type="button" id="start-button" class="button">
+				Start
+			</button>
+			<button type="button" id="tutorial-button" class="button">
+				Tutorial
+			</button>
+			<button type="button" id="credits-button" class="button">
+				Credits
+			</button>
+		</div>
+	</header>
     <body>
         <canvas id="canvas"></canvas>
     </body>

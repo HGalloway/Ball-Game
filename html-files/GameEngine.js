@@ -4,14 +4,14 @@ class GameEngine {
 		this.canvasContext = this.canvas.getContext("2d");
 
 		this.Player = new Player(50);
-		this.Ball = new Ball(150, 125, 5)
+		this.Ball = new Ball(150, 0, 5)
 
-		// this.listenToKeyboardInput()
+		this.listenToKeyboardInput()
     }
 
     drawCanvas() {
         this.canvasContext.beginPath();
-		// this.Player.drawPlayer(this.canvasContext);
+		this.Player.drawPlayer(this.canvasContext);
 		this.Ball.drawBall(this.canvasContext);
 		this.canvasContext.fill();
     }
@@ -21,8 +21,8 @@ class GameEngine {
 	}
 
     startEngine() {
-    	setInterval(() => {
-			this.Ball.bounceBall(this.canvas);
+    	var engineInterval = setInterval(() => {
+			this.Ball.bounceBall(this.canvas, this.Player, engineInterval);
 			this.clearCanvas();
 			this.drawCanvas();
 		}, 10)
@@ -30,7 +30,7 @@ class GameEngine {
 
     listenToKeyboardInput(){
 		document.addEventListener('keydown', (event) => {
-			
+			this.Player.movePlayer(event.key, this.canvas)
 		}, false);
     }
 }
@@ -53,8 +53,12 @@ class Ball {
 
     }
 
-	bounceBall(canvas) {
-		if (this.x <= 0 + this.radius) {
+	bounceBall(canvas, Player, engineInterval) {
+		if (this.y > Player.y + this.radius) {
+			clearInterval(engineInterval)
+			console.log("You Lose!")
+		}
+		if (this.x <= this.radius) {
 			this.invertXVelocity()
 			this.x += this.radius
 		}
@@ -62,7 +66,7 @@ class Ball {
 			this.invertXVelocity()
 			this.x = canvas.width - this.radius
 		}
-		if (this.y <= 0 + this.radius) {
+		if (this.y <= this.radius) {
 			this.invertYVelocity()
 			this.y += this.radius
 		}
@@ -70,8 +74,9 @@ class Ball {
 			this.invertYVelocity()
 			this.y = canvas.height - this.radius 
 		}
-
-		// this.yVelocity += this.gravity
+		if (this.x + this.radius >= Player.x && this.x + this.radius <= Player.x + Player.width && this.y + this.radius >= Player.y && this.y + this.radius <= Player.y + Player.height) {
+			Player.handleColision(this)
+		}
 
 		this.x += this.xVelocity
 		this.y += this.yVelocity
@@ -90,11 +95,15 @@ class Player {
     constructor(x) {
         this.x = x;
         this.y = 125
+
+		this.xVelocity = 0
+
         this.width = 40
         this.height = 5;
 
-		this.previousX = this.x
-		this.previousY = this.y
+		this.isMoving = false
+		this.MOVEMENTOPTIONS = ["LEFT", "RIGHT", null]
+		this.movingWhichWay
 
         this.score = 0;
     }
@@ -103,24 +112,57 @@ class Player {
         canvasContext.fillRect(this.x, this.y, this.width, this.height);
     }
 
-	clearPlayer(canvasContext) {
-		canvasContext.clearRect(this.previousX, this.previousY, this.width, this.height)
+	movePlayer(keyPressed, canvas) {
+		if (keyPressed == "d") {
+			if (this.x != canvas.width - this.width) {
+				this.moveRight()
+			}
+		}
+		else if (keyPressed == "a") {
+			if (this.x != 0) {
+				this.moveLeft()
+			}
+		}
+		else {
+			this.doNotMove()
+		}
+		
+	}
+
+	moveLeft() {
+		this.xVelocity = -10
+		this.x += this.xVelocity
+	}
+
+	moveRight() {
+		this.xVelocity = 10
+		this.x += this.xVelocity
+	}
+
+	doNotMove() {
+		this.xVelocity = 0
+	}
+
+
+	// this.MOVEMENTOPTIONS = ["LEFT", "RIGHT", null]
+	handleColision(Ball) {
+		if (Math.sign(this.xVelocity) == -1) {
+			if (Math.sign(Ball.xVelocity) == 1) {
+				Ball.invertXVelocity()
+			}
+		}
+		else if (Math.sign(this.xVelocity) == 1) {
+			if (Math.sign(Ball.xVelocity) == -1) {
+				Ball.invertXVelocity()
+			}
+		}
+		else {
+			Ball.invertXVelocity()
+		}
+		Ball.invertYVelocity()
 	}
 }
 
-// Player Movement Code
-// var keyName = event.key;
-// if (keyName == "d") {
-// 	if (this.Player.x != this.canvas.width - this.Player.width) {
-// 		this.Player.previousX = this.Player.x
-// 		this.Player.x += 5
-// 	}
-// 	console.log("Right: " + this.Player.x)
-// }
-// else if (keyName == "a") {
-// 	if (this.Player.x != 0) {
-// 		this.Player.previousX = this.Player.x
-// 		this.Player.x -= 5
-// 	}
-// 	console.log("Left: " + this.Player.x)
-// }
+class Score {
+
+}
