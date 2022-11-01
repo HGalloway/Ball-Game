@@ -3,33 +3,123 @@
 <html>
     <head>
 	<title>Bawls</title>
-        <link rel="stylesheet" href="home.css"></link>
-	<script src="http://192.168.1.141/GameEngine.js"></script>
-	<script>
-		window.onload = function () {
-			var gameEngine = new GameEngine("canvas");
-			gameEngine.startEngine();			
-		};
+    <link rel="stylesheet" href="./assets/css/home.css"></link>
+    <link rel="stylesheet" href="./assets/css/modal.css"></link>
+	<script type="module" >
+		import { GameEngine } from './assets/engine-components/GameEngine.mjs'
+		import { ConsoleEngine } from './assets/engine-components/ConsoleEngine.js'
+		
+		var gameEngine = new GameEngine("canvas")
+		gameEngine.drawCanvas()
+
+		var consoleEngine = new ConsoleEngine()
+
+		gameEngine.Player.getConsoleEngine(consoleEngine)
+
+		import { StartButton } from './assets/page-components/Start.js'
+		import { SettingsButton } from './assets/page-components/Settings.js'
+		import { SimpleModal } from './assets/page-components/SimpleModal.js'
+
+
+		var startButton = new StartButton(gameEngine, consoleEngine)
+		var settingsButton = new SettingsButton(gameEngine, gameEngine.Player)
+		var tutorialButton = new SimpleModal(gameEngine, "tutorial")
+		var creditsButton = new SimpleModal(gameEngine, "credits")
+
+
+		window.onload = () => {
+			gameEngine.drawCanvas()
+		}
 	</script>
     </head>
-	<header class="header">
-		<!-- align="left" -->
+	<header id="header">
 		<div id="header-left" > 
-			<h1 id="title">Bawls</h1>
+			<h1 id="title" class="text">Bawls</h1>
+		</div>
+		<div id="header-center">
+			<span id="console" class="text"></span>
 		</div>
 		<div id="header-right" >
-			<button type="button" id="start-button" class="button">
+			<button type="button" id="start-button" class="button text" >
 				Start
 			</button>
-			<button type="button" id="tutorial-button" class="button">
+			<button type="button" id="settings-button" class="button text">
+				Settings
+			</button>
+			<button type="button" id="tutorial-button" class="button text">
 				Tutorial
 			</button>
-			<button type="button" id="credits-button" class="button">
+			<button type="button" id="credits-button" class="button text">
 				Credits
 			</button>
 		</div>
 	</header>
     <body>
         <canvas id="canvas"></canvas>
+		<img id="dvd-svg" src="./assets/images/DVD_logo.svg"></img>
+		<div id="settings-modal" class="modal"> 
+			<div id="settings-modal-content-container" class="modal-content-container">
+				<button type="button" id="settings-modal-close-button" class="modal-close-button text">X</button>
+				<div id="settings-modal-content">
+					<div id="player-settings-container">
+						<h1 id="player-title" class="text">Player: </h1>
+						<br>
+						<div id="player-settings" class="row">
+							<p id="player-size-setting-title" class="text">Player size:</p>
+							<input id="player-size-setting-input" class="text input"></input>
+						</div>
+					</div>
+					<br>
+					<div id="misc-settings-container">
+						<h1 id="misc-title" class="text">Misc settings:</h1>
+						<br>
+						<div id="misc-settings">
+							<div id="dvd-mode-setting-container" class="row">
+								<p id="dvd-mode-setting-title" class="text">DVD mode:</p>
+								<label id="dvd-mode-switch" class="switch input">
+									<input type="checkbox" id="dvd-mode-checkbox">
+									<span class="slider"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="tutorial-modal" class="modal">
+			<div id="tutorial-modal-content-container" class="modal-content-container">
+				<button type="button" id="tutorial-modal-close-button" class="modal-close-button text">X</button>
+				<div id="tutorial-modal-content">
+					<h1 id="tutorial-title" class="text">How to play:</h1>
+					<br>
+					<p id="tutorial-text" class="text">
+						Hi! Welcome to Bawls! The game is quite simple, the ball will bounce around and your goal is to not let it get
+						passed you. You will earn points everytime you successfully keep the ball away.
+					</p>
+					<br>
+					<p id="tutorial-text-controls" class="text">
+						To move, use the a and w keys. The a key will move the player left, while the w key will move the player right.
+					</p>
+					<br>
+					<p id="tutorial-text" class="text">
+						Simple!
+					</p>
+					<br>
+					<p id="tutorial-text-ending" class="text">
+						Thanks for playing!
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="credits-modal" class="modal">
+			<div id="credits-modal-content-container" class="modal-content-container">
+				<button type="button" id="credits-modal-close-button" class="modal-close-button text">X</button>
+				<div id="credits-modal-content">
+					<p id="credits" class="text">Game made by: Hilliard Drew Luna Galloway II</p>
+					<br>
+					<a id="github-link" class="text" href="https://github.com/HGalloway">My GitHub</a>
+				</div>
+			</div>
+		</div>
     </body>
 </html>

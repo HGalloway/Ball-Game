@@ -1,0 +1,76 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: PublicPixel;
+    src: url("http://192.168.1.141/assets/fonts/PublicPixel-z84yD.ttf");
+}
+
+body,
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.text {
+    font-family: PublicPixel;
+}
+
+.button {
+    background-color: white;
+    border-radius: 10%;
+    border-width: 1;
+    margin: 1%;
+    padding: 1%;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+#header {
+    display: flex;
+}
+
+#header-left {
+    float: left;
+    flex: 1
+}
+
+#title {
+    margin: 2%;
+}
+
+#header-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+#header-right {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    float: right;
+    justify-content: flex-end;
+    margin: 1%;
+}
+
+#canvas {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+#dvd-svg {
+    display: none;
+}
