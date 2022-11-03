@@ -3,25 +3,21 @@ export class Player {
         this.x = x;
         this.y = 125
 
-        this.xVelocity = 0
-
         this.width = 40
         this.height = 5;
 
-        this.isMoving = false
-        this.MOVEMENTOPTIONS = ["LEFT", "RIGHT", null]
-        this.movingWhichWay
+        this.xVelocity = 0
 
         this.score = 0;
         this.ConsoleEngine
     }
 
-    drawPlayer(canvasContext) {
-        canvasContext.fillRect(this.x, this.y, this.width, this.height);
-    }
-
     getConsoleEngine(ConsoleEngine) {
         this.ConsoleEngine = ConsoleEngine
+    }
+
+    drawPlayer(canvasContext) {
+        canvasContext.fillRect(this.x, this.y, this.width, this.height);
     }
 
     movePlayer(keyPressed, canvas) {
@@ -70,7 +66,7 @@ export class Player {
         }
         Object.invertYVelocity()
         this.score++
-        this.ConsoleEngine.showScore(this.score)
+        this.ConsoleEngine.outputToConsole(this.score)
     }
 
     resetPlayerVariables(GameEngine) {

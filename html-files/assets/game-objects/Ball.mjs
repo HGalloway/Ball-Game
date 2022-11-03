@@ -3,20 +3,20 @@ export class Ball {
         this.x = x
         this.y = y
 
-        this.xVelocity = 1
-        this.yVelocity = 1
-
         this.radius = radius
         this.startAngle = 0
         this.endAngle = 2 * Math.PI
+
+        this.xVelocity = 1
+        this.yVelocity = 1
     }
 
     drawObject(canvasContext) {
-        canvasContext.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle);
+        canvasContext.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle)
     }
 
     bounceObject(canvas, Player, GameEngine) {
-        if (this.y > Player.y + this.radius) {
+        if (this.y >= canvas.height - this.radius) {
             GameEngine.resetEngine()
         }
         if (this.x <= this.radius) {

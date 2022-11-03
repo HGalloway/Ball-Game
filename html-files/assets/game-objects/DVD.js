@@ -3,11 +3,11 @@ export class DVD {
         this.x = x
         this.y = y
 
-        this.xVelocity = 1
-        this.yVelocity = 1
-
         this.width = 35
         this.height = 20
+
+        this.xVelocity = 1
+        this.yVelocity = 1
         
         this.DVDSVG = document.getElementById('dvd-svg')
     }
@@ -29,8 +29,8 @@ export class DVD {
         if (this.y <= 0) {
             this.invertYVelocity()
         }
-        if (this.y + this.height >= Player.y && this.y + this.height <= Player.y) { //&& this.x >= Player.x && this.x <= Player.x
-            if (this.x + (this.width + 2) >= Player.x && this.x <= Player.x + Player.width) {
+        if (this.y + this.height >= Player.y && this.y + this.height <= Player.y) {
+            if (this.x + this.width >= Player.x && this.x <= Player.x + Player.width) {
                 Player.handleColision(this)
             }
             

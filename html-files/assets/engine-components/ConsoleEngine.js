@@ -1,23 +1,26 @@
 export class ConsoleEngine {
-    constructor() {
+    constructor(Player) {
         this.console = document.getElementById("console")
 
         this.countdownInterval
+
+        this.Player = Player
     }
 
     countdown(time) {
         this.countdownInterval = setInterval(() => {
             if (time != -1) {
-                this.console.innerHTML = time
+                this.outputToConsole(time)
                 time--
             }
             else {
                 clearInterval(this.countdownInterval)
+                this.outputToConsole(this.Player.score)
             }
         }, 1000)
     }
 
-    showScore(score) {
-        this.console.innerHTML = score
+    outputToConsole(text) {
+        this.console.innerHTML = text
     }
 }

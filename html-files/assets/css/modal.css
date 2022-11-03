@@ -107,14 +107,17 @@ input:checked+.slider:before {
     text-align: center;
 }
 
-#credits {
+.credits-text {
     margin: 5%;
 }
 
 #github-link {
     color: black;
+    display: block;
 }
 
 #github-link:visited {
     color:black;
 }
+
+/* End Credits Modal */

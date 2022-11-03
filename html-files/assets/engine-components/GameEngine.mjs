@@ -4,24 +4,24 @@ import { DVD } from "../game-objects/DVD.js"
 
 export class GameEngine {
     constructor(canvasName) {
-		this.canvas = document.getElementById(canvasName);
-		this.canvasContext = this.canvas.getContext("2d");
+		this.canvas = document.getElementById(canvasName)
+		this.canvasContext = this.canvas.getContext("2d")
 
-		this.startButton = document.getElementById("start-button")
-
-		this.playerInitX = 130
-		this.Player = new Player(this.playerInitX);
-		
 		this.objectInitX = 150
 		this.objectInitY = 15
-		this.Object = new Ball(this.objectInitX, this.objectInitY, 5);
+		this.Object = new Ball(this.objectInitX, this.objectInitY, 5)
+
+		this.playerInitX = 130
+		this.Player = new Player(this.playerInitX)
 
 		this.ENGINESTATUSES = ['STOPPED', 'RUNNING', 'ENDED', 'PAUSED']
 		this.engineStatus = this.ENGINESTATUSES[0]
-		this.engineInterval;
+		this.engineInterval
 
-		this.isKeyPressAllowed == false
-		this.listenToKeyboardInput();
+		this.startButton = document.getElementById("start-button")
+
+		this.isKeyPressAllowed = false
+		this.listenToKeyboardInput()
     }
 
 	initObject(objectName) {
@@ -34,10 +34,10 @@ export class GameEngine {
 	}
 
     drawCanvas() {
-        this.canvasContext.beginPath();
-		this.Player.drawPlayer(this.canvasContext);
-		this.Object.drawObject(this.canvasContext);
-		this.canvasContext.fill();
+        this.canvasContext.beginPath()
+		this.Player.drawPlayer(this.canvasContext)
+		this.Object.drawObject(this.canvasContext)
+		this.canvasContext.fill()
     }
 
 	clearCanvas() {
@@ -45,7 +45,7 @@ export class GameEngine {
 	}
 
     startEngine() {
-		this.engineStatus = this.ENGINESTATUSES[1]
+		this.engineStatus = this.ENGINESTATUSES[1] //RUNNING
     	this.engineInterval = setInterval(() => {
 			this.Object.bounceObject(this.canvas, this.Player, this);
 			this.clearCanvas();
@@ -55,17 +55,17 @@ export class GameEngine {
     }
 
 	pauseEngine() {
-		this.isKeyPressAllowed = false
-		this.engineStatus = this.ENGINESTATUSES[3]
 		clearInterval(this.engineInterval)
+		this.engineStatus = this.ENGINESTATUSES[3] //PAUSED
+		this.isKeyPressAllowed = false
 	}
 
 	resetEngine() {
 		clearInterval(this.engineInterval)
 		this.startButton.innerHTML = "Restart"
-		this.engineStatus = this.ENGINESTATUSES[2]
-		
+		this.engineStatus = this.ENGINESTATUSES[2] //ENDED
 		this.isKeyPressAllowed = false
+
 		setTimeout(() => {
 			this.Player.resetPlayerVariables(this)
 			this.Object.resetObjectVariables(this)

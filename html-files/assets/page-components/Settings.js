@@ -3,13 +3,13 @@ export class SettingsButton {
         this.GameEngine = GameEngine
         this.Player = Player
 
-        this.settingsButton = document.getElementById("settings-button");
-        this.settingsButton.addEventListener("click", () => { this.showModal() }, false);
+        this.settingsButton = document.getElementById("settings-button")
+        this.settingsButton.addEventListener("click", () => { this.showModal() }, false)
 
         this.settingsModal = document.getElementById("settings-modal")
 
         this.settingsModalCloseButton = document.getElementById("settings-modal-close-button")
-        this.settingsModalCloseButton.addEventListener("click", () => { this.closeModal() }, false);
+        this.settingsModalCloseButton.addEventListener("click", () => { this.closeModal() }, false)
     
         this.settingsPlayerSizeInput = document.getElementById("player-size-setting-input")
         this.settingsPlayerSizeInput.value = Player.width
@@ -18,6 +18,7 @@ export class SettingsButton {
     }
 
     showModal() {
+        // STOPPED || ENDED
         if (this.GameEngine.engineStatus == this.GameEngine.ENGINESTATUSES[0] || this.GameEngine.engineStatus == this.GameEngine.ENGINESTATUSES[2]) {
             this.settingsModal.style.display = "block"
         }       

@@ -3,6 +3,7 @@
 <html>
     <head>
 	<title>Bawls</title>
+	<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
     <link rel="stylesheet" href="./assets/css/home.css"></link>
     <link rel="stylesheet" href="./assets/css/modal.css"></link>
 	<script type="module" >
@@ -10,26 +11,20 @@
 		import { ConsoleEngine } from './assets/engine-components/ConsoleEngine.js'
 		
 		var gameEngine = new GameEngine("canvas")
-		gameEngine.drawCanvas()
 
-		var consoleEngine = new ConsoleEngine()
+		var consoleEngine = new ConsoleEngine(gameEngine.Player)
 
+		gameEngine.drawCanvas()	
 		gameEngine.Player.getConsoleEngine(consoleEngine)
 
 		import { StartButton } from './assets/page-components/Start.js'
 		import { SettingsButton } from './assets/page-components/Settings.js'
 		import { SimpleModal } from './assets/page-components/SimpleModal.js'
 
-
 		var startButton = new StartButton(gameEngine, consoleEngine)
 		var settingsButton = new SettingsButton(gameEngine, gameEngine.Player)
 		var tutorialButton = new SimpleModal(gameEngine, "tutorial")
 		var creditsButton = new SimpleModal(gameEngine, "credits")
-
-
-		window.onload = () => {
-			gameEngine.drawCanvas()
-		}
 	</script>
     </head>
 	<header id="header">
@@ -59,7 +54,7 @@
 		<img id="dvd-svg" src="./assets/images/DVD_logo.svg"></img>
 		<div id="settings-modal" class="modal"> 
 			<div id="settings-modal-content-container" class="modal-content-container">
-				<button type="button" id="settings-modal-close-button" class="modal-close-button text">X</button>
+				<button id="settings-modal-close-button" type="button" class="modal-close-button text">X</button>
 				<div id="settings-modal-content">
 					<div id="player-settings-container">
 						<h1 id="player-title" class="text">Player: </h1>
@@ -88,7 +83,7 @@
 		</div>
 		<div id="tutorial-modal" class="modal">
 			<div id="tutorial-modal-content-container" class="modal-content-container">
-				<button type="button" id="tutorial-modal-close-button" class="modal-close-button text">X</button>
+				<button id="tutorial-modal-close-button" type="button" class="modal-close-button text">X</button>
 				<div id="tutorial-modal-content">
 					<h1 id="tutorial-title" class="text">How to play:</h1>
 					<br>
@@ -115,9 +110,9 @@
 			<div id="credits-modal-content-container" class="modal-content-container">
 				<button type="button" id="credits-modal-close-button" class="modal-close-button text">X</button>
 				<div id="credits-modal-content">
-					<p id="credits" class="text">Game made by: Hilliard Drew Luna Galloway II</p>
+					<p id="credits" class="text credits-text">Game made by: Hilliard Drew Luna Galloway II</p>
 					<br>
-					<a id="github-link" class="text" href="https://github.com/HGalloway">My GitHub</a>
+					<a id="github-link" class="text credits-text" href="https://github.com/HGalloway">My GitHub</a>
 				</div>
 			</div>
 		</div>

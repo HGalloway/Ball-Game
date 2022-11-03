@@ -12,6 +12,7 @@ export class SimpleModal {
     }
 
     showModal() {
+        // STOPPED || ENDED
         if (this.GameEngine.engineStatus == this.GameEngine.ENGINESTATUSES[0] || this.GameEngine.engineStatus == this.GameEngine.ENGINESTATUSES[2] ||this.GameEngine.engineStatus == this.GameEngine.ENGINESTATUSES[3]) {
             this.modal.style.display = "block"
         }
