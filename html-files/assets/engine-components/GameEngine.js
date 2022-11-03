@@ -1,5 +1,5 @@
-import { Player } from "../game-objects/Player.mjs";
-import { Ball } from "../game-objects/Ball.mjs";
+import { Player } from "../game-objects/Player.js";
+import { Ball } from "../game-objects/Ball.js";
 import { DVD } from "../game-objects/DVD.js"
 
 export class GameEngine {
